@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace アプリケーション開発
 {
-    internal class block
+    public class block
     {
+        public float X, Y;
+        public int width = 50;
+        public int height = 20;
+
     }
 }

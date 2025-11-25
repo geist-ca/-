@@ -10,5 +10,12 @@ namespace アプリケーション開発
     {
         public float X, Y;
         public int size = 10;
+
+        public Ball(float x,float y)
+        {
+        X = x;
+        Y = y;
+        }
     }
+
 }

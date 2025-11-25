@@ -6,7 +6,23 @@ using System.Threading.Tasks;
 
 namespace アプリケーション開発
 {
-    internal class gameManeger
+    public class gameManeger
     {
+        Ball ball;
+        paddle paddle;
+       block block;
+        List<block> blocks=new List<block>();
+        int width, height;
+
+        public gameManeger(int w, int h)
+        {
+        width = w;
+        height = h;
+
+            ball = new Ball(150,300);
+            paddle=new paddle(w/2-50,h-40);
+
+        }
+
     }
 }
