@@ -9,6 +9,7 @@ namespace アプリケーション開発
     public class Ball
     {
         public float X, Y;
+        public float VX = 4, VY = -4;
         public int size = 10;
 
         public Ball(float x,float y)
@@ -16,6 +17,7 @@ namespace アプリケーション開発
         X = x;
         Y = y;
         }
+
     }
 
 }
