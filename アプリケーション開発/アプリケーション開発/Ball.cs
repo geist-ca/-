@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace アプリケーション開発
 {
-    internal class Ball
+    public class Ball
     {
+        public float X, Y;
+        public int size = 10;
     }
 }
