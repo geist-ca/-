@@ -22,6 +22,14 @@ namespace アプリケーション開発
             ball = new Ball(150,300);
             paddle=new paddle(w/2-50,h-40);
 
+            for (int y = 0; y < 5; y++)
+            {
+                for (int x = 0; x < 5; x++)
+                {
+                    blocks.Add(new block(10 + x * 60, 10 + y * 30));
+                }
+            }
+
         }
 
     }

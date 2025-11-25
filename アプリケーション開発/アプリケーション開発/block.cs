@@ -12,5 +12,10 @@ namespace アプリケーション開発
         public int width = 50;
         public int height = 20;
 
+        public block(float x,float y)
+        {
+        X = x;
+        Y = y;
+        }
     }
 }
