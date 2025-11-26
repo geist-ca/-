@@ -8,7 +8,7 @@ namespace アプリケーション開発
 {
     public class gameManeger
     {
-        Ball ball;
+        Ball ball;          // 定義設定
         paddle paddle;
        block block;
         List<block> blocks=new List<block>();
@@ -17,8 +17,9 @@ namespace アプリケーション開発
         public gameManeger(int w, int h)
         {
         width = w;
-        height = h;
+        height = h;     // ここまで
 
+            //ブロック生成
             ball = new Ball(150,300);
             paddle=new paddle(w/2-50,h-40);
 
