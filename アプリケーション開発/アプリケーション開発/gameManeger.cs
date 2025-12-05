@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,6 +73,19 @@ namespace アプリケーション開発
             }
         }
 
+        public void Draw(Graphics g) 
+        {
+        ball.Draw(g);
+        paddle.Draw(g);
+
+            foreach(var block in blocks)
+            {
+                if (!block.IsDestroyed) 
+                {
+                block.Draw(g);
+                }
+            }
+        }
 
     }
 }
