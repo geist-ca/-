@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace アプリケーション開発
 {
-    public class gameManeger
+    public class GameManeger
     {
         Ball ball;          // 定義設定
         paddle paddle;
-       block block;
-        List<block> blocks=new List<block>();
+       Block block;
+        List<Block> blocks=new List<Block>();
         int width, height;
 
-        public gameManeger(int w, int h)
+        public GameManeger(int w, int h)
         {
         width = w;
         height = h;     // ここまで
@@ -27,11 +27,15 @@ namespace アプリケーション開発
             {
                 for (int x = 0; x < 5; x++)
                 {
-                    blocks.Add(new block(10 + x * 60, 10 + y * 30));
+                    blocks.Add(new Block(10 + x * 60, 10 + y * 30));
                 }
             }
 
         }
 
+        public void MovePaddle(int mouseX) 
+        {
+        
+        }
     }
 }

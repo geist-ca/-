@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace アプリケーション開発
 {
-    public class block
+    public class Block
     {
         public float X, Y;      // 初期値設定
         public int width = 50;
         public int height = 20;
 
         public bool IsDestroyed=false;
-        public block(float x,float y)
+        public Block(float x,float y)
         {
         X = x;
         Y = y;      // ここまで
