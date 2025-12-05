@@ -34,7 +34,7 @@ namespace アプリケーション開発
             g.FillEllipse(Brushes.Red, Rect);
         
         }
-        public void reset() 
+        public void Reset() 
         {
             X = 150;
             Y = 300;

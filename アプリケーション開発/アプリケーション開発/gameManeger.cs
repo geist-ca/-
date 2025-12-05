@@ -9,7 +9,7 @@ namespace アプリケーション開発
     public class GameManeger
     {
         Ball ball;          // 定義設定
-        paddle paddle;
+        Paddle paddle;
        Block block;
         List<Block> blocks=new List<Block>();
         int width, height;
@@ -21,7 +21,7 @@ namespace アプリケーション開発
 
             //ブロック生成
             ball = new Ball(150,300);
-            paddle=new paddle(w/2-50,h-40);
+            paddle=new Paddle(w/2-50,h-40);
 
             for (int y = 0; y < 5; y++)
             {
@@ -35,7 +35,43 @@ namespace アプリケーション開発
 
         public void MovePaddle(int mouseX) 
         {
-        
+        paddle.MoveTo(mouseX);
         }
+
+        public void Update()
+        {
+            ball.Move();
+
+            if (ball.X < 0 || ball.Right > width)
+            {
+                ball.VX *= -1;
+            }
+
+            if (ball.Y < 0)
+            {
+                ball.VY *= -1;
+            }
+
+            if (ball.Rect.IntersectsWith(paddle.Rect))
+            {
+                ball.VY = -Math.Abs(ball.VY);
+            }
+
+            foreach (var block in blocks)
+            {
+                if (!block.IsDestroyed && ball.Rect.IntersectsWith(paddle.Rect))
+                {
+                    block.IsDestroyed = true;
+                    ball.VY *= -1;
+                    break;
+                }
+            }
+            if (ball.Y >height)
+            {
+            ball.Reset();
+            }
+        }
+
+
     }
 }

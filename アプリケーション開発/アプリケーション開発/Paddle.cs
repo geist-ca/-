@@ -8,13 +8,13 @@ using System.Windows.Forms;
 
 namespace アプリケーション開発
 {
-    public class paddle
+    public class Paddle
     {
         public float X, Y;      //初期値設定
         public int width = 100;
         public int height = 15;
 
-        public paddle(float x, float y)
+        public Paddle(float x, float y)
         {
             X = x;
             Y = y;          //ここまで
@@ -23,10 +23,11 @@ namespace アプリケーション開発
         {
             X = mouseX - width / 2;
         }
+        public RectangleF Rect => new RectangleF(X, Y, width, height);
 
-        public void Draw(Graphics g, Block block)
+        public void Draw(Graphics g)
         {
-            g.FillRectangle(Brushes.Blue, block.Rect);
+            g.FillRectangle(Brushes.Blue,Rect);
         }
     }
 }
