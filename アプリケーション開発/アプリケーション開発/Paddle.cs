@@ -1,34 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Drawing;
 
-namespace アプリケーション開発
+public class Paddle
 {
-    public class Paddle
+    public int X, Y;
+    public int Width = 100;
+    public int Height = 15;
+
+    public Paddle(int x, int y)
     {
-        public float X, Y;      //初期値設定
-        public int width = 100;
-        public int height = 15;
+        X = x;
+        Y = y;
+    }
 
-        public Paddle(float x, float y)
-        {
-            X = x;
-            Y = y;          //ここまで
-        }
-        public void MoveTo(float mouseX)
-        {
-            X = mouseX - width / 2;
-        }
-        public RectangleF Rect => new RectangleF(X, Y, width, height);
+    public Rectangle Rect => new Rectangle(X, Y, Width, Height);
 
-        public void Draw(Graphics g)
-        {
-            g.FillRectangle(Brushes.Blue,Rect);
-        }
+    public void MoveTo(int mouseX)
+    {
+        X = mouseX - Width / 2;
+    }
+
+    public void Draw(Graphics g)
+    {
+        g.FillRectangle(Brushes.LightBlue, Rect);
     }
 }
-

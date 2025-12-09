@@ -1,32 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
-namespace アプリケーション開発
+public class Block
 {
-    public class Block
+    public int X, Y;
+    public int Width = 50;
+    public int Height = 20;
+    public bool IsDestroyed = false;
+
+    public Block(int x, int y)
     {
-        public float X, Y;      // 初期値設定
-        public int width = 50;
-        public int height = 20;
-
-        public bool IsDestroyed=false;
-        public Block(float x,float y)
-        {
         X = x;
-        Y = y;      // ここまで
-        }
+        Y = y;
+    }
 
-        //ブロックを表示させるためのプログラミング
-        public RectangleF Rect => new RectangleF(X, Y, width, height);
+    public Rectangle Rect => new Rectangle(X, Y, Width, Height);
 
-        public void Draw(Graphics g)
-        {
-            g.FillRectangle(Brushes.Green, Rect);
-
-        }
+    public void Draw(Graphics g)
+    {
+        g.FillRectangle(Brushes.Orange, Rect);
+        g.DrawRectangle(Pens.Black, Rect);
     }
 }

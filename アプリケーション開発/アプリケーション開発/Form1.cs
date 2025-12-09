@@ -1,44 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace アプリケーション開発
 {
     public partial class Form1 : Form
     {
-        GameManeger game;
-        private Panel GamePanel;
-        private Timer GameTimer;
+        GameManager game;
+        DoubleBufferedPanel GamePanel;
+        Timer GameTimer;
+
         public Form1()
         {
             InitializeComponent();
 
-            GamePanel = new Panel();
-            GamePanel.Location = new Point(10, 10);      // 位置
-            GamePanel.Size = new Size(400, 300);         // サイズ
-            GamePanel.BackColor = Color.Black;           // 背景色
-            this.Controls.Add(GamePanel);
-            DoubleBuffered = true;
+            this.DoubleBuffered = true;
 
-            game=new GameManeger(GamePanel.Width,GamePanel.Height);
-            GameTimer.Interval = 16;
+            // パネル作成
+            GamePanel = new DoubleBufferedPanel();
+            GamePanel.Location = new Point(10, 10);
+            GamePanel.Size = new Size(600, 400);
+            GamePanel.BackColor = Color.Black;
+
+            GamePanel.Paint += GamePanel_Paint;
+            GamePanel.MouseMove += GamePanel_MouseMove;
+
+            this.Controls.Add(GamePanel);
+
+            // ゲーム管理
+            game = new GameManager(GamePanel.Width, GamePanel.Height);
+
+            // タイマー
+            GameTimer = new Timer();
+            GameTimer.Interval = 16; // 60FPS
+            GameTimer.Tick += GameTimer_Tick;
             GameTimer.Start();
         }
-        private void GameTimer_Tick(object sender, EventArgs e) 
+
+        private void GameTimer_Tick(object sender, EventArgs e)
         {
             game.Update();
             GamePanel.Invalidate();
         }
 
-        private void Game_Panel(object sender, PaintEventArgs e) 
+        private void GamePanel_Paint(object sender, PaintEventArgs e)
         {
-            game.Draw(e.graphics);
+            game.Draw(e.Graphics);
+        }
+
+        private void GamePanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            game.MovePaddle(e.X);
         }
     }
 }

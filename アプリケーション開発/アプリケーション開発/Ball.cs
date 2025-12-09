@@ -1,48 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
-namespace アプリケーション開発
+public class Ball
 {
-    public class Ball
-    {
-        public float X, Y;              //初期値設定
-        public float VX = 4, VY = -4;
-        public int size = 10;
+    public int X, Y;
+    public int VX = 4;
+    public int VY = -4;
+    public int Size = 10;
 
-        public Ball(float x,float y)
-        {
+    public Ball(int x, int y)
+    {
         X = x;
         Y = y;
-        }
-        //ここまで
-        public RectangleF Rect => new RectangleF(X, Y, size, size);
-
-        public float Right => X + size;
-
-        public void Move() 
-        {
-            X += VX;
-            Y += VY;
-        }
-        public void Draw(Graphics g) 
-        {
-            g.FillEllipse(Brushes.Red, Rect);
-        
-        }
-        public void Reset() 
-        {
-            X = 150;
-            Y = 300;
-            VX = 4;
-            VY = 4;
-        }
     }
 
+    public Rectangle Rect => new Rectangle(X, Y, Size, Size);
+    public int Right => X + Size;
+    public int Bottom => Y + Size;
 
+    public void Move()
+    {
+        X += VX;
+        Y += VY;
+    }
 
+    public void Reset()
+    {
+        X = 150;
+        Y = 300;
+        VX = 4;
+        VY = -4;
+    }
+
+    public void Draw(Graphics g)
+    {
+        g.FillEllipse(Brushes.White, Rect);
+    }
 }

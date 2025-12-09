@@ -1,91 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace アプリケーション開発
+public class GameManager
 {
-    public class GameManeger
+    Ball ball;
+    Paddle paddle;
+    List<Block> blocks = new List<Block>();
+    int width, height;
+
+    public GameManager(int w, int h)
     {
-        Ball ball;          // 定義設定
-        Paddle paddle;
-       Block block;
-        List<Block> blocks=new List<Block>();
-        int width, height;
-
-        public GameManeger(int w, int h)
-        {
         width = w;
-        height = h;     // ここまで
+        height = h;
 
-            //ブロック生成
-            ball = new Ball(150,300);
-            paddle=new Paddle(w/2-50,h-40);
+        ball = new Ball(150, 300);
+        paddle = new Paddle(w / 2 - 50, h - 40);
 
-            for (int y = 0; y < 5; y++)
-            {
-                for (int x = 0; x < 5; x++)
-                {
-                    blocks.Add(new Block(10 + x * 60, 10 + y * 30));
-                }
-            }
-
-        }
-
-        public void MovePaddle(int mouseX) 
+        // ブロック生成
+        for (int y = 0; y < 5; y++)
         {
+            for (int x = 0; x < 8; x++)
+            {
+                blocks.Add(new Block(10 + x * 60, 10 + y * 30));
+            }
+        }
+    }
+
+    public void MovePaddle(int mouseX)
+    {
         paddle.MoveTo(mouseX);
+    }
+
+    public void Update()
+    {
+        // ------- パドル衝突判定（最優先） -------
+        if (ball.Rect.IntersectsWith(paddle.Rect))
+        {
+            ball.VY = -Math.Abs(ball.VY);
         }
 
-        public void Update()
+        // ------- ブロック衝突判定（バグ修正済み） -------
+        foreach (var block in blocks)
         {
-            ball.Move();
-
-            if (ball.X < 0 || ball.Right > width)
+            if (!block.IsDestroyed && ball.Rect.IntersectsWith(block.Rect))
             {
-                ball.VX *= -1;
-            }
-
-            if (ball.Y < 0)
-            {
+                block.IsDestroyed = true;
                 ball.VY *= -1;
-            }
-
-            if (ball.Rect.IntersectsWith(paddle.Rect))
-            {
-                ball.VY = -Math.Abs(ball.VY);
-            }
-
-            foreach (var block in blocks)
-            {
-                if (!block.IsDestroyed && ball.Rect.IntersectsWith(paddle.Rect))
-                {
-                    block.IsDestroyed = true;
-                    ball.VY *= -1;
-                    break;
-                }
-            }
-            if (ball.Y >height)
-            {
-            ball.Reset();
+                break; // return 禁止（判定スキップ防止）
             }
         }
 
-        public void Draw(Graphics g) 
-        {
+        // ------- ボール移動 -------
+        ball.Move();
+
+        // ------- 壁衝突 -------
+        if (ball.X < 0 || ball.Right > width)
+            ball.VX *= -1;
+
+        if (ball.Y < 0)
+            ball.VY *= -1;
+
+        // 下に落ちたらリセット
+        if (ball.Y > height)
+            ball.Reset();
+    }
+
+    public void Draw(Graphics g)
+    {
         ball.Draw(g);
         paddle.Draw(g);
 
-            foreach(var block in blocks)
-            {
-                if (!block.IsDestroyed) 
-                {
+        foreach (var block in blocks)
+        {
+            if (!block.IsDestroyed)
                 block.Draw(g);
-                }
-            }
         }
-
     }
 }

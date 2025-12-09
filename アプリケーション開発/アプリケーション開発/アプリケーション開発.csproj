@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Ball.cs" />
     <Compile Include="block.cs" />
+    <Compile Include="DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
