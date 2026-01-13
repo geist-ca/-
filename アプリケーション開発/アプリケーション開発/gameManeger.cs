@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
+using System.Linq;
+using System.Windows.Forms;
 
 public class GameManager
 {
@@ -17,16 +20,10 @@ public class GameManager
         ball = new Ball(150, 300);
         paddle = new Paddle(w / 2 - 50, h - 40);
 
-        // ブロック生成
-        for (int y = 0; y < 5; y++)
-        {
-            for (int x = 0; x < 8; x++)
-            {
-                blocks.Add(new Block(10 + x * 60, 10 + y * 30));
-            }
-        }
+        //ブロック生成
+        CreateBlock();
     }
-
+        
     public void MovePaddle(int mouseX)
     {
         paddle.MoveTo(mouseX);
@@ -63,8 +60,38 @@ public class GameManager
 
         // 下に落ちたらリセット
         if (ball.Y > height)
-            ball.Reset();
+        {
+            MessageBox.Show("ボールを落としました。", "Miss");
+            ResetStege();
+            return;
+        }
+        if (blocks.All(b => b.IsDestroyed)) 
+        {
+            MessageBox.Show("クリア!!", "clear");
+            ResetStege();
+        }
     }
+    
+    
+    private void ResetStege() 
+    {
+        ball.Reset();
+        CreateBlock();
+    }
+
+   private void CreateBlock() 
+    {
+    blocks.Clear();
+
+        for(int y = 0; y < 5; y++)
+        {
+            for(int x = 0; x < 8; x++) 
+            {
+                blocks.Add(new Block(10+x*60, 10+y*30));
+            }
+        }
+    }
+
 
     public void Draw(Graphics g)
     {
