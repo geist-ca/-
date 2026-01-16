@@ -53,7 +53,7 @@ public class GameManager
         if (ball.Y > height)
         {
             state = GamePlayState.Message;
-            MessageText = "ミス";
+            MessageText = "ミス(´・ω・｀)";
             return;
         }
 
@@ -82,7 +82,7 @@ public class GameManager
         if (blocks.All(b => b.IsDestroyed)) 
         {
             state |= GamePlayState.Message;
-            MessageText = "クリア";
+            MessageText = "クリア!!";
         }
     }
     
@@ -98,9 +98,9 @@ public class GameManager
     {
     blocks.Clear();
 
-        for(int y = 0; y < 5; y++)
+        for(int y = 0; y < 1; y++)
         {
-            for(int x = 0; x < 8; x++) 
+            for(int x = 0; x < 1; x++) 
             {
                 blocks.Add(new Block(10+x*60, 10+y*30));
             }
