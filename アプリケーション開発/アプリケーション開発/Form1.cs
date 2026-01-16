@@ -41,6 +41,14 @@ namespace アプリケーション開発
         {
             game.Update();
             GamePanel.Invalidate();
+
+            if (game.state == GamePlayState.Message) 
+            {
+            GameTimer.Stop();
+                MessageBox.Show(game.MessageText);
+                game.ResetStege();
+                GameTimer.Start();
+            }
         }
 
         private void GamePanel_Paint(object sender, PaintEventArgs e)
@@ -51,6 +59,11 @@ namespace アプリケーション開発
         private void GamePanel_MouseMove(object sender, MouseEventArgs e)
         {
             game.MovePaddle(e.X);
+
+            Point p=game.GetPaddleCenter();
+
+            Point scrrenPos = GamePanel.PointToScreen(p);
+            Cursor.Position = scrrenPos;
         }
     }
 }

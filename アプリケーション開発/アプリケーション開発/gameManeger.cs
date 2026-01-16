@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Windows.Forms;
+using アプリケーション開発;
 
 public class GameManager
 {
@@ -11,6 +13,9 @@ public class GameManager
     Paddle paddle;
     List<Block> blocks = new List<Block>();
     int width, height;
+    public GamePlayState state { get; private set; }=GamePlayState.Playing;
+     
+    public string MessageText {  get; private set; }
 
     public GameManager(int w, int h)
     {
@@ -21,7 +26,7 @@ public class GameManager
         paddle = new Paddle(w / 2 - 50, h - 40);
 
         //ブロック生成
-        CreateBlock();
+        ResetStege();
     }
         
     public void MovePaddle(int mouseX)
@@ -29,8 +34,29 @@ public class GameManager
         paddle.MoveTo(mouseX);
     }
 
+    public Point GetPaddleCenter()
+    {
+        return new Point(paddle.Rect.X + paddle.Rect.Width / 2,
+            paddle.Rect.Y + paddle.Rect.Height / 2
+            );
+    }
     public void Update()
     {
+
+        // ------- 壁衝突 -------
+        if (ball.X < 0 || ball.Right > width)
+            ball.VX *= -1;
+
+        if (ball.Y < 0)
+            ball.VY *= -1;
+        // 下に落ちたらリセット
+        if (ball.Y > height)
+        {
+            state = GamePlayState.Message;
+            MessageText = "ミス";
+            return;
+        }
+
         // ------- パドル衝突判定（最優先） -------
         if (ball.Rect.IntersectsWith(paddle.Rect))
         {
@@ -51,32 +77,21 @@ public class GameManager
         // ------- ボール移動 -------
         ball.Move();
 
-        // ------- 壁衝突 -------
-        if (ball.X < 0 || ball.Right > width)
-            ball.VX *= -1;
 
-        if (ball.Y < 0)
-            ball.VY *= -1;
-
-        // 下に落ちたらリセット
-        if (ball.Y > height)
-        {
-            MessageBox.Show("ボールを落としました。", "Miss");
-            ResetStege();
-            return;
-        }
+       
         if (blocks.All(b => b.IsDestroyed)) 
         {
-            MessageBox.Show("クリア!!", "clear");
-            ResetStege();
+            state |= GamePlayState.Message;
+            MessageText = "クリア";
         }
     }
     
     
-    private void ResetStege() 
+     public void ResetStege() 
     {
         ball.Reset();
         CreateBlock();
+        state=GamePlayState.Playing;
     }
 
    private void CreateBlock() 
